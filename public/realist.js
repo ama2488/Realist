@@ -1,39 +1,71 @@
+/* global $ */
+/* global firebase */
 $(document).ready(() => {
-  const prompts = ['elephant', 'bird', 'owl', 'star', 'heart', 'tree', 'hand', 'apple', 'banana', 'crab', 'flower', 'cat', 'cup', 'smiley', 'sun', 'guitar', 'boat', 'pig', 'octopus', 'eye', 'butterfly', 'bee', 'umbrella', 'frog', 'lightning bolt', 'ice cream cone', 'robot', 'fish', 'whale'];
-  const currPrompt = prompts[(Math.floor(Math.random() * prompts.length))];
+  const prompts = ['elephant', 'bird', 'owl', 'star', 'heart', 'tree', 'hand', 'apple', 'banana', 'crab', 'flower', 'cat', 'cup', 'smiley', 'guitar', 'boat', 'pig', 'octopus', 'eye', 'butterfly', 'bee', 'umbrella', 'frog', 'lightning bolt', 'ice cream cone', 'robot', 'fish', 'whale'];
   const results = {};
-  const exclude = ['text', 'font', 'line', 'logo', 'shape', 'brand', 'clip art', 'diagram', 'icon', 'screenshot'];
+  const exclude = ['text', 'font', 'line', 'line art', 'logo', 'shape', 'brand', 'clip art', 'diagram', 'icon', 'screenshot'];
   let img;
   let user;
+  let currPrompt;
+  let myBoard;
 
+  function initiateGame() {
+    // generate and display prompt
+    currPrompt = prompts[(Math.floor(Math.random() * prompts.length))];
+    $('#prompt h4').html(currPrompt);
+    // create canvas and drawing tools
+    $('#paint').html('');
+    myBoard = new DrawingBoard.Board('paint', {
+      controlsPosition: 'bottom center',
+      size: 5,
+      controls: [
+        'Color',
+        { Size: { type: 'dropdown' } },
+        'DrawingMode',
+        'Navigation',
+      ],
+      webStorage: false,
+    });
+  }
+
+  initiateGame();
+
+  // facebook login
+  $('#facebook').on('click', () => {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    firebase.auth().signInWithPopup(provider).then((result) => {
+      // const token = result.credential.accessToken;
+      user = result.user;
+      $('#user').html(user.displayName);
+      $('#sign-in').toggle();
+    }).catch((error) => {
+  // Handle Errors here.
+      alert(error.message);
+    });
+  });
+
+  $('#google').on('click', () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider).then((result) => {
+      // const token = result.credential.accessToken;
+      user = result.user;
+      $('#user').html(user.displayName);
+      $('#sign-in').toggle();
+    }).catch((error) => {
+  // Handle Errors here.
+      alert(error.message);
+    });
+  });
+
+  // show toast to provide app instructions on initial page load
   const $toastContent = $('<span>Draw the image specified with as much detail as possible. Submit to see if Google can guess what you drew! </span>');
   Materialize.toast($toastContent, 5000);
 
-  // Get a reference to the database service
-  const database = firebase.database();
-
-  const provider = new firebase.auth.FacebookAuthProvider();
-  firebase.auth().signInWithPopup(provider).then((result) => {
-    const token = result.credential.accessToken;
-    // The signed-in user info.
-    user = result.user;
-  });
-
-  $('#prompt h4').html(currPrompt);
-
-  const myBoard = new DrawingBoard.Board('paint', {
-    controlsPosition: 'bottom center',
-    controls: [
-      'Color',
-	{ Size: { type: 'dropdown' } },
-      'DrawingMode',
-      'Navigation',
-    ],
-    webStorage: false,
-  });
-
+  // create results display based on api response
   function createResult() {
+    $('#result').html('');
     results.resultsArr.forEach((item) => {
+      const result = $('#result');
       const $topResult = $('<h1>');
       const $newResult = $('<h4>');
       const $score = $('<h5>');
@@ -42,37 +74,35 @@ $(document).ready(() => {
         $topResult.html(item.description);
         $score.html(`${(item.score * 100).toFixed(2)}%`);
         $topResult.append($score);
-        $('#result').append($topResult);
+        result.append($topResult);
       } else if (exclude.indexOf(item.description) === -1) {
         $newResult.html(item.description);
         $score.html(`${(item.score * 100).toFixed(2)}%`);
         $newResult.append($score);
-        $('#result').append($newResult);
+        result.append($newResult);
       }
     });
-    $('#currImage').append($('<img>').attr('src', results.image));
+    $('#currImage').html($('<img>').attr('src', results.image).addClass('current'));
     $('.canvas').toggle();
     $('.results').toggle();
   }
 
+  // write the current drawing and results to the database
   function addToGallery() {
-  // Get a key for a new Post.
     const newPostKey = firebase.database().ref().child('gallery').push().key;
-
-  // Write the new image and results to gallery database
     const updates = {};
     updates[`/gallery/${newPostKey}`] = results;
-
     return firebase.database().ref().update(updates);
   }
 
+  // read the database contents to create gallery of existing images
   function displayGallery() {
     $.get('https://realist-167521.firebaseio.com/gallery.json?auth=nFFmDovebtKXnx7ge5hZHuIxAkpqWGOtMVImF4UY', (resp) => {
       const galleryArr = [];
       for (const key in resp) {
         galleryArr.push(resp[key]);
       }
-
+      // generate card for each item in database
       function makeCard(obj) {
         const $newCard = $('<div>').addClass('card');
         const $cardImage = $('<div>').addClass('card-image');
@@ -101,17 +131,17 @@ $(document).ready(() => {
 
         return $newCard;
       }
+      // call makeCard function for each item returned from database
       galleryArr.forEach((item) => {
         $('#gallery').append(makeCard(item));
       });
     }, 'json');
   }
 
-  $('#submit').on('click', (e) => {
+  $('#submit').on('click', () => {
     $('#result').html('');
-   // get drawingboard content
     img = myBoard.getImg();
-
+    // create data for POST request
     const imageRequest = {
       requests: [
         {
@@ -126,7 +156,8 @@ $(document).ready(() => {
         },
       ],
     };
-
+    // call to get labels for current image
+    // on success, create database object and call functions to display results and gallery
     $.ajax({
       type: 'POST',
       url: 'https://vision.googleapis.com/v1/images:annotate?key=AIzaSyBczLvztRvV0UPWBOWmBDlbupxxsJrzW-g',
@@ -135,7 +166,7 @@ $(document).ready(() => {
         results.image = img;
         results.resultsArr = resp.responses[0].labelAnnotations;
         results.prompt = currPrompt;
-        results.user = user.displayName;
+        results.user = (typeof user === 'undefined' ? 'anonymous' : user.displayName);
         createResult();
         addToGallery();
         displayGallery();
@@ -144,8 +175,10 @@ $(document).ready(() => {
       dataType: 'json',
     });
   });
-
-  $('#replay').on('click', (e) => {
-    location.reload();
+  // reset game and display drawing board
+  $('#replay').on('click', () => {
+    initiateGame();
+    $('.canvas').toggle();
+    $('.results').toggle();
   });
 });

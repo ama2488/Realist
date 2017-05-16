@@ -5,15 +5,25 @@ body {
 }
 
 h1 {
+  color: #00CCCC;
   margin-top: 0;
+}
+
+h6 {
+padding-top: 15px;
+}
+
+h3 {
+  color: #00CCCC;
 }
 
 a {
   color: black;
 }
 
-img {
-  width: 100%;
+img.current {
+  height: 600px;
+  width: 600px;
   margin:auto;
 }
 
@@ -27,22 +37,29 @@ img {
   display:none;
 }
 
-.goog {
-  background-color: white;
-  border: 2px solid black;
+.goog h5, p {
+  color: #424242
 }
 
 .underline {
-  border-bottom: 2px solid green;
+  border-bottom: 2px solid #00CCCC;
   width:30%;
   margin:auto;
+  padding: 15px;
+  color: #424242
 }
 
 .card {
   width:30%;
   float:left;
-  height: 700px;
+  height: 800px;
   margin:1%;
+}
+
+.bottom-border {
+  border-bottom: 2px solid #424242;
+  width:30%;
+  margin:auto;
 }
 
 #toast-container {
