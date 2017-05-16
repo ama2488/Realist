@@ -1,0 +1,52 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/Cellar/node/7.9.0/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install' ]
+2 info using npm@2.15.8
+3 info using node@v7.9.0
+4 verbose readDependencies loading dependencies from /Users/amandaallen/galvanize/unit-1/Realist/functions/package.json
+5 verbose install where, deps [ '/Users/amandaallen/galvanize/unit-1/Realist/functions',
+5 verbose install   [ 'firebase-admin', 'firebase-functions' ] ]
+6 verbose install where, peers [ '/Users/amandaallen/galvanize/unit-1/Realist/functions', [] ]
+7 verbose installManyTop reading for lifecycle /Users/amandaallen/galvanize/unit-1/Realist/functions/package.json
+8 info preinstall functions@
+9 verbose installManyTop reading scoped package data from /Users/amandaallen/galvanize/unit-1/Realist/functions/node_modules/firebase-admin/package.json
+10 verbose installManyTop reading scoped package data from /Users/amandaallen/galvanize/unit-1/Realist/functions/node_modules/firebase-functions/package.json
+11 info package.json firebase-admin@4.1.4 No repository field.
+12 verbose readDependencies loading dependencies from /Users/amandaallen/galvanize/unit-1/Realist/functions/package.json
+13 verbose targetResolver reading package data from /Users/amandaallen/galvanize/unit-1/Realist/functions/node_modules/firebase-admin/package.json
+14 verbose targetResolver reading package data from /Users/amandaallen/galvanize/unit-1/Realist/functions/node_modules/firebase-functions/package.json
+15 verbose already installed skipping firebase-functions@^0.5 /Users/amandaallen/galvanize/unit-1/Realist/functions
+16 verbose already installed skipping firebase-admin@~4.1.2 /Users/amandaallen/galvanize/unit-1/Realist/functions
+17 silly install resolved []
+18 info build /Users/amandaallen/galvanize/unit-1/Realist/functions
+19 info linkStuff functions@
+20 silly linkStuff functions@ has /Users/amandaallen/galvanize/unit-1/Realist as its parent node_modules
+21 verbose linkBins functions@
+22 verbose linkMans functions@
+23 verbose rebuildBundles functions@
+24 verbose rebuildBundles [ 'firebase-admin', 'firebase-functions' ]
+25 info install functions@
+26 info postinstall functions@
+27 info prepublish functions@
+28 verbose validateInstall loading /Users/amandaallen/galvanize/unit-1/Realist/functions/package.json for validation
+29 verbose stack Error: The package firebase-admin@4.1.4 does not satisfy its siblings' peerDependencies requirements!
+29 verbose stack     at /usr/local/lib/node_modules/npm/lib/install.js:125:32
+29 verbose stack     at /usr/local/lib/node_modules/npm/lib/install.js:268:7
+29 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:142:5
+29 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+29 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+29 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+29 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+29 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+29 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+29 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+30 verbose cwd /Users/amandaallen/galvanize/unit-1/Realist/functions
+31 error Darwin 15.6.0
+32 error argv "/usr/local/Cellar/node/7.9.0/bin/node" "/usr/local/bin/npm" "install"
+33 error node v7.9.0
+34 error npm  v2.15.8
+35 error code EPEERINVALID
+36 error peerinvalid The package firebase-admin@4.1.4 does not satisfy its siblings' peerDependencies requirements!
+36 error peerinvalid Peer firebase-functions@0.5.7 wants firebase-admin@~4.2.1
+37 verbose exit [ 1, true ]
