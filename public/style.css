@@ -22,14 +22,14 @@ a {
 }
 
 img.current {
-  height: 600px;
-  width: 600px;
   margin:auto;
+  width: 100%;
+  height:inherit;
 }
 
 .board {
   height:500px;
-  width:500px;
+  width:100%;
   margin: auto;
 }
 
@@ -43,22 +43,21 @@ img.current {
 
 .underline {
   border-bottom: 2px solid #00CCCC;
-  width:30%;
   margin:auto;
   padding: 15px;
   color: #424242
 }
 
+.currImage {
+  height: 500px;
+}
+
 .card {
-  width:30%;
-  float:left;
-  height: 800px;
-  margin:1%;
+  height: 855px !important;
 }
 
 .bottom-border {
   border-bottom: 2px solid #424242;
-  width:30%;
   margin:auto;
 }
 

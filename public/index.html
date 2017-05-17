@@ -18,27 +18,37 @@
     <nav class='grey darken-3'>
       <div class='container'>
         <div class='nav-wrapper'>
-          <a href='#' class ='brand-logo'> R E A L i S T</a>
-          <ul id='nav-mobile' class='right'>
-            <div id='sign-in'>
-            <li> Login with  </li>
-            <li><a href='#' id='facebook'><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
-            <li><a href='#' id='google'><i class="fa fa-google" aria-hidden="true"></i></a></li>
+          <a href='#!' class ='brand-logo'> R E A L i S T</a>
+          <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul class='side-nav' id='mobile'>
+            <div class='sign-in'>
+            <li><a href='#' class='facebook'>Login with Facebook</a></li>
+            <li><a href='#' class='google'>Login with Google</a></li>
+          </div>
+          <p class='user center'></p>
+          </ul>
+          <ul class='right hide-on-med-and-down'>
+            <div class='sign-in'>
+              <li> Login with  </li>
+              <li><a href='#' class='facebook'><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
+              <li><a href='#' class='google'><i class="fa fa-google" aria-hidden="true"></i></a></li>
             </div>
-            <h6 id='user'></h6>
+            <h6 class='user'></h6>
           </ul>
         </div>
       </div>
     </nav>
     <div class='row'>
-      <div class='col s12 center' id='prompt'>
+      <div class='col s12 m4 offset-m4 center' id='prompt'>
         <h4 class='bold underline center'></h4>
       </div>
     </div>
     <section class='canvas'>
-      <div class='row'>
-        <div class='col s12'>
-          <div class='board center-align' id='paint'></div>
+      <div class='container'>
+        <div class='row'>
+          <div class='col s12 m8 offset-m2'>
+            <div class='board center-align' id='paint'></div>
+          </div>
         </div>
       </div>
       <div class ='row'>
@@ -51,8 +61,8 @@
   </section>
   <section class='results center'>
     <div class='row'>
-      <div class='col s12 m6 offset-m1' id='currImage'></div>
-      <div class='col s12 m3 goog' id = 'result'></div>
+      <div class='col s12 m6 offset-m1 valign-wrapper' id='currImage'></div>
+      <div class='col s12 m2 goog' id = 'result'></div>
     </div>
     <div class='row'>
       <div class='col s12 center'>
@@ -60,11 +70,13 @@
       </div>
     </div>
     <div class='row'>
-      <div class='center'>
+      <div class='col s12 m4 offset-m4 center'>
         <h1 class='bold center bottom-border'>Gallery</h1>
         <br>
       </div>
-      <div class='col s12 center' id='gallery'>
+      <div class='container'>
+        <div class='col s12 center' id='gallery'>
+        </div>
       </div>
     </div>
   </section>
