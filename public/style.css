@@ -41,6 +41,10 @@ img.current {
   color: #424242
 }
 
+.user-info{
+  display: none;
+}
+
 .underline {
   border-bottom: 2px solid #00CCCC;
   margin:auto;

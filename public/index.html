@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://use.fontawesome.com/e551e5263e.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
   <link href='drawingboard.js/dist/drawingboard.css' rel='stylesheet'/>
   <link href='style.css' rel='stylesheet'/>
-
+  <link rel="shortcut icon" href="favicon.ico" />
   <title>REALiST</title>
 </head>
 <body>
@@ -18,14 +17,17 @@
     <nav class='grey darken-3'>
       <div class='container'>
         <div class='nav-wrapper'>
-          <a href='#!' class ='brand-logo'> R E A L i S T</a>
-          <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+          <a href='#' class ='brand-logo'> R E A L i S T</a>
+          <a href='#' data-activates="mobile" class="button-collapse right"><i class="material-icons">menu</i></a>
           <ul class='side-nav' id='mobile'>
             <div class='sign-in'>
             <li><a href='#' class='facebook'>Login with Facebook</a></li>
             <li><a href='#' class='google'>Login with Google</a></li>
           </div>
+          <div class='user-info'>
           <p class='user center'></p>
+          <li><a href='#' class='logout'>Log Out</a></li>
+          </div>
           </ul>
           <ul class='right hide-on-med-and-down'>
             <div class='sign-in'>
@@ -33,7 +35,10 @@
               <li><a href='#' class='facebook'><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
               <li><a href='#' class='google'><i class="fa fa-google" aria-hidden="true"></i></a></li>
             </div>
-            <h6 class='user'></h6>
+            <div class='user-info'>
+            <li class='user thin'></li>
+            <li><a href='#' class='logout'>Log Out</a></li>
+            </div>
           </ul>
         </div>
       </div>
@@ -51,9 +56,8 @@
           </div>
         </div>
       </div>
-      <div class ='row'>
+      <div class ='row valign-wrapper'>
         <div class='col s12 center'>
-          <br>
           <button class='waves-effect waves-light btn-large grey darken-3 white-text' id='submit'> Submit </button>
         </div>
       </div>
@@ -66,7 +70,7 @@
     </div>
     <div class='row'>
       <div class='col s12 center'>
-        <button class='waves-effect waves-light btn-large grey darken-3 white-text' id='replay'>Play Again</button>
+        <button class='waves-effect waves-light btn-large grey darken-3 white-text' id='replay'> Play Again </button>
       </div>
     </div>
     <div class='row'>
@@ -81,6 +85,24 @@
     </div>
   </section>
 </main>
+<footer class="page-footer grey darken-3">
+     <div class="container">
+       <div class="row">
+         <div class="col l6 s12">
+           <h5 class="white-text">R E A L i S T</h5>
+           <p class="grey-text text-lighten-4 thin">Test your artistic abilities against Google's Vision API. Draw the prompted image. Submit.
+           View the results.</p>
+         </div>
+       </div>
+     </div>
+     <div class="footer-copyright grey darken-4">
+       <div class="container">
+       © 2017 REALiST
+       <a class="grey-text text-lighten-4 right" href="https://cloud.google.com/vision/">Powered by Google Vision</a><br>
+       <a class="grey-text text-lighten-4 right" href="http://leimi.github.io/drawingboard.js/">and drawingboard.js</a>
+       </div>
+     </div>
+   </footer>
 <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
 <script>
 // Initialize Firebase

@@ -1,20 +1,23 @@
 /* global $ */
 /* global firebase */
 $(document).ready(() => {
-  const prompts = ['elephant', 'bird', 'owl', 'star', 'heart', 'tree', 'hand', 'apple', 'banana', 'crab', 'flower', 'cat', 'cup', 'smiley', 'guitar', 'boat', 'pig', 'octopus', 'eye', 'butterfly', 'bee', 'umbrella', 'frog', 'lightning bolt', 'ice cream cone', 'robot', 'fish', 'whale'];
-  const results = {};
+  const prompts = ['elephant', 'bird', 'owl', 'star', 'book', 'shoe', 'candle',
+    'alligator', 'monkey', 'coin', 'cheese', 'dog', 'car', 'fire', 'chair', 'lion',
+    'hammer', 'turkey', 'snail', 'snake', 'hamburger', 'santa', 'plane', 'cactus',
+    'the planet Saturn', 'flamingo', 'horse', 'heart', 'tree', 'hand', 'apple',
+    'banana', 'crab', 'flower', 'cat', 'smiley', 'guitar', 'boat', 'pig', 'octopus',
+    'eye', 'butterfly', 'bee', 'umbrella', 'frog', 'lightning bolt', 'ice cream cone',
+    'robot', 'fish', 'whale'];
   const exclude = ['text', 'font', 'line', 'line art', 'logo', 'shape', 'brand', 'clip art', 'diagram', 'icon', 'screenshot'];
+  const results = {};
   let user;
   let currPrompt;
   let myBoard;
 
-  $('.button-collapse').sideNav();
-
+// create canvas/drawing tools and display drawing prompt
   function initiateGame() {
-    // generate and display prompt
     currPrompt = prompts[(Math.floor(Math.random() * prompts.length))];
     $('#prompt h4').html(currPrompt);
-    // create canvas and drawing tools
     $('#paint').html('');
     myBoard = new DrawingBoard.Board('paint', {
       controlsPosition: 'bottom center',
@@ -28,39 +31,7 @@ $(document).ready(() => {
       webStorage: false,
     });
   }
-
   initiateGame();
-
-  // facebook login
-  $('.facebook').on('click', () => {
-    const provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithPopup(provider).then((result) => {
-      // const token = result.credential.accessToken;
-      user = result.user;
-      $('.user').html(user.displayName);
-      $('.sign-in').toggle();
-    }).catch((error) => {
-      // Handle Errors here.
-      alert(error.message);
-    });
-  });
-  // google login
-  $('.google').on('click', () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then((result) => {
-      // const token = result.credential.accessToken;
-      user = result.user;
-      $('.user').html(user.displayName);
-      $('.sign-in').toggle();
-    }).catch((error) => {
-      // Handle Errors here.
-      alert(error.message);
-    });
-  });
-
-  // show toast to provide app instructions on initial page load
-  const $toastContent = $('<span>Draw the image specified with as much detail as possible. Submit to see if Google can guess what you drew! </span>');
-  Materialize.toast($toastContent, 5000);
 
   // create results display based on api response
   function createResult() {
@@ -96,14 +67,15 @@ $(document).ready(() => {
     return firebase.database().ref().update(updates);
   }
 
-  // read the database contents to create gallery of existing images
+  // read the database contents to create gallery of existing images and results
   function displayGallery() {
+    $('#gallery').html('');
     $.get('https://realist-167521.firebaseio.com/gallery.json?auth=nFFmDovebtKXnx7ge5hZHuIxAkpqWGOtMVImF4UY', (resp) => {
       const galleryArr = [];
       for (const key in resp) {
         galleryArr.push(resp[key]);
       }
-      // generate card for each item in database
+      // generate card element for each item in database
       function makeCard(obj) {
         const $newCard = $('<div>').addClass('card col s12 m4 13');
         const $cardImage = $('<div>').addClass('card-image');
@@ -157,7 +129,7 @@ $(document).ready(() => {
         },
       ],
     };
-    // call to get labels for current image
+    // API call to get labels for current image
     // on success, create database object and call functions to display results and gallery
     $.ajax({
       type: 'POST',
@@ -176,19 +148,18 @@ $(document).ready(() => {
       dataType: 'json',
     });
   });
-  // reset game and display drawing board
+  // reset game and display drawing board when click 'Play Again' button
   $('#replay').on('click', () => {
     $('.canvas').toggle();
     $('.results').toggle();
     initiateGame();
   });
 
-  // make canvas responsive
+  // MAKE CANVAS RESPONSIVE
   $(window).resize(() => {
     const boardImage = myBoard.getImg();
     const penSize = myBoard.opts.size;
     const penColor = myBoard.color;
-    console.log(myBoard);
     // create canvas and drawing tools
     $('#paint').html('');
     myBoard = new DrawingBoard.Board('paint', {
@@ -209,4 +180,36 @@ $(document).ready(() => {
     myBoard.ctx.lineCap = 'round';
     myBoard.ctx.lineJoin = 'round';
   });
+
+  // USER LOGIN
+  function login(prov) {
+    firebase.auth().signInWithPopup(prov).then((result) => {
+        // const token = result.credential.accessToken;
+      user = result.user;
+      $('.user').html(user.displayName);
+      $('.user-info').toggle();
+      $('.sign-in').toggle();
+    });
+  }
+    // facebook login
+  $('.facebook').on('click', () => {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    login(provider);
+  });
+    // google login
+  $('.google').on('click', () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    login(provider);
+  });
+  // user logout
+  $('.logout').on('click', () => {
+    location.reload();
+  });
+// enable mobile side nav
+  $('.button-collapse').sideNav({
+    edge: 'right',
+    closeOnClick: true,
+    draggable: true,
+  },
+ );
 });
